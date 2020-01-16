@@ -11,8 +11,9 @@ $text = file_get_contents($_GET['file']);
     <head>
         <meta charset="utf-8">
         <title><?= pathinfo($_GET['file'],PATHINFO_BASENAME); ?></title>
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/examples/css/style.css" />
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/css/editormd.preview.css" />
+        <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/examples/css/style.css" /> -->
+        <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/css/editormd.preview.css" /> -->
+        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/markdown.css" />
         <style type="text/css">
             body {
                 padding: 40px;
@@ -46,7 +47,7 @@ $text = file_get_contents($_GET['file']);
             }
             
             #editormd-view {
-                padding-left: 430px;
+                /*padding-left: 430px;*/
                 padding-right: 0;
                 margin: 0;
             }
