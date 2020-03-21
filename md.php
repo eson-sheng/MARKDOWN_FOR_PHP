@@ -47,7 +47,8 @@ $text = file_get_contents($_GET['file']);
             }
             
             #editormd-view {
-                padding-left: 130px;
+                width: 100%;
+                padding-left: 160px;
                 padding-right: 0;
                 margin: 0;
             }
