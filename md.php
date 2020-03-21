@@ -20,7 +20,7 @@ $text = file_get_contents($_GET['file']);
             }
             
             #sidebar {
-                width: 400px;
+                width: 320px;
                 height: 100%;
                 position: fixed;
                 top: 0;
@@ -47,7 +47,7 @@ $text = file_get_contents($_GET['file']);
             }
             
             #editormd-view {
-                /*padding-left: 430px;*/
+                padding-left: 130px;
                 padding-right: 0;
                 margin: 0;
             }
