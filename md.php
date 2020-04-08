@@ -41,6 +41,10 @@ $text = file_get_contents($_GET['file']);
             #sidebar h1 {
                 font-size: 16px;
             }
+
+            #sidebar:after{
+                content:'.';
+            }
             
             #toc {
                 padding-left: 0;
@@ -59,6 +63,7 @@ $text = file_get_contents($_GET['file']);
             <div id="sidebar">
                 <h1>目录</h1>
                 <div class="markdown-body editormd-preview-container" id="toc"></div>
+                <br>
             </div>
             <div id="editormd-view">
                 <xml style="display:none;" id="xml"><?= htmlspecialchars($text); ?></xml>
