@@ -101,6 +101,13 @@ $text = file_get_contents($_GET['file']);
                 flowChart       : true,  // 默认不解析
                 sequenceDiagram : true,  // 默认不解析
             });
+            // 手机屏幕适配
+            if (screen.width < 500) {
+                var t = document.getElementById('sidebar');
+                t.style.display = 'none';
+                var v = document.getElementById('editormd-view');
+                v.style.paddingLeft = 0;
+            }
         });
     </script>
 </html>
