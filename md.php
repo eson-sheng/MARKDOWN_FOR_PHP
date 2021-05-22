@@ -20,7 +20,7 @@ $text = file_get_contents($_GET['file']);
             }
             
             #sidebar {
-                width: 320px;
+                width: 20%;
                 height: 100%;
                 position: fixed;
                 top: 0;
