@@ -1,0 +1,57 @@
+body {
+    padding: 40px;
+}
+
+#sidebar {
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: #fff;
+    z-index: 100;
+    padding: 18px; 
+    border: 1px solid #ddd;
+    border-top: none;
+    border-bottom: none;
+}
+
+#sidebar:hover {
+    overflow: auto;
+}
+
+#sidebar h1 {
+    font-size: 16px;
+}
+
+#sidebar:after{
+    content:'.';
+}
+
+#toc {
+    padding-left: 0;
+}
+
+#editormd-view {
+    width: 100%;
+    padding-left: 160px;
+    padding-right: 0;
+    margin: 0;
+}
+
+#menuBtn {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+}
+
+#menuBtn i{
+    font-size: 25px;
+    color: #ccc;
+}
+
+#menuBtn i:hover{
+    font-size: 25px;
+    color: #333;
+}

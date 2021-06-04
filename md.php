@@ -14,52 +14,12 @@ $text = file_get_contents($_GET['file']);
         <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/examples/css/style.css" /> -->
         <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/css/editormd.preview.css" /> -->
         <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/markdown.css" />
-        <style type="text/css">
-            body {
-                padding: 40px;
-            }
-            
-            #sidebar {
-                width: 20%;
-                height: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                overflow: hidden;
-                background: #fff;
-                z-index: 100;
-                padding: 18px; 
-                border: 1px solid #ddd;
-                border-top: none;
-                border-bottom: none;
-            }
-            
-            #sidebar:hover {
-                overflow: auto;
-            }
-            
-            #sidebar h1 {
-                font-size: 16px;
-            }
-
-            #sidebar:after{
-                content:'.';
-            }
-            
-            #toc {
-                padding-left: 0;
-            }
-            
-            #editormd-view {
-                width: 100%;
-                padding-left: 160px;
-                padding-right: 0;
-                margin: 0;
-            }
-        </style>
+        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/css/md.css" />
+        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/iconfont/iconfont.css">
     </head>
     <body>
         <div id="layout">
+            <div id="menuBtn"><i class="iconfont icon-caidanlanzhankaix"></i></div>
             <div id="sidebar">
                 <h1>目录</h1>
                 <div class="markdown-body editormd-preview-container" id="toc"></div>
@@ -82,32 +42,5 @@ $text = file_get_contents($_GET['file']);
     <script src="/MARKDOWN_FOR_PHP/editor.md/lib/jquery.flowchart.min.js"></script>
 
     <script src="/MARKDOWN_FOR_PHP/editor.md/editormd.js"></script>
-
-    <script type="text/javascript">
-        $(function() {
-            EditormdView = editormd.markdownToHTML("editormd-view", {
-                markdown        : "\r\n" + $("#xml").text(),//+ "\r\n" + $("#append-test").text(),
-                //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-                htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                //toc             : false,
-                tocm            : true,    // Using [TOCM]
-                tocContainer    : "#toc", // 自定义 ToC 容器层
-                //gfm             : false,
-                //tocDropdown     : true,
-                // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-                emoji           : true,
-                taskList        : true,
-                tex             : true,  // 默认不解析
-                flowChart       : true,  // 默认不解析
-                sequenceDiagram : true,  // 默认不解析
-            });
-            // 手机屏幕适配
-            if (screen.width < 500) {
-                var t = document.getElementById('sidebar');
-                t.style.display = 'none';
-                var v = document.getElementById('editormd-view');
-                v.style.paddingLeft = 0;
-            }
-        });
-    </script>
+    <script src="/MARKDOWN_FOR_PHP/assets/js/md.js"></script>
 </html>
