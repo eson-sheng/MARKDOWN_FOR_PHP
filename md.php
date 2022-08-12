@@ -13,6 +13,7 @@ $text = file_get_contents($_GET['file']);
         <title><?= pathinfo($_GET['file'],PATHINFO_BASENAME); ?></title>
         <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/examples/css/style.css" /> -->
         <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/css/editormd.preview.css" /> -->
+        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/layui/css/layui.css" />
         <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/markdown.css" />
         <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/css/md.css" />
         <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/iconfont/iconfont.css">
@@ -42,5 +43,6 @@ $text = file_get_contents($_GET['file']);
     <script src="/MARKDOWN_FOR_PHP/editor.md/lib/jquery.flowchart.min.js"></script>
 
     <script src="/MARKDOWN_FOR_PHP/editor.md/editormd.js"></script>
+    <script src="/MARKDOWN_FOR_PHP/layui/layui.js"></script>
     <script src="/MARKDOWN_FOR_PHP/assets/js/md.js"></script>
 </html>

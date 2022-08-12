@@ -69,4 +69,16 @@ $(function() {
             }
         });
     }
+    // 图片点击放大查看
+    $('img').click(function(){
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 1,
+            area: ['95%', '95%'],
+            skin: 'layui-layer-nobg', //没有背景色
+            shadeClose: true,
+            content: $(this)
+        });
+    });
 });
