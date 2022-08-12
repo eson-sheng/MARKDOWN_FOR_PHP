@@ -2,6 +2,10 @@ body {
     padding: 40px;
 }
 
+li {
+    list-style-type: inherit;
+}
+
 #sidebar {
     width: 20%;
     height: 100%;
