@@ -71,11 +71,45 @@ $(function() {
     }
     // 图片点击放大查看
     $('img').click(function(){
+        var userAgentInfo = navigator.userAgent;
+        var mobileAgents = [ "Android", "iPhone", "SymbianOS", "Windows Phone", "iPad","iPod"];
+        var mobile_flag = false;
+        //根据userAgent判断是否是手机
+        for (var v = 0; v < mobileAgents.length; v++) {
+            if (userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+                mobile_flag = true;
+                break;
+            }
+        }
+         var screen_width = window.screen.width;
+         var screen_height = window.screen.height;    
+         //根据屏幕分辨率判断是否是手机
+         if(screen_width < 500 && screen_height < 800){
+             mobile_flag = true;
+         }
+         // 如果是手机就取消点击事件，直接跳转到图片链接。
+         if (mobile_flag) {
+            window.location.href = $(this).attr('src');
+            return false;
+         }
+        // area 属性设置
+        let areaWidth = 'auto',areaHeight = 'auto';
+        // 获取当前窗口大小
+        let windowWidth = window.innerWidth,windowHeight = window.innerHeight;
+        // 获取图片大小
+        let imageWidth = $(this)[0].naturalWidth,imageHeight = $(this)[0].naturalHeight;
+        // 判断图片大于窗口就最大90%
+        if (imageWidth > windowWidth) {
+            areaWidth = '90%';
+        }
+        if (imageHeight > windowHeight) {
+            areaHeight = '90%';
+        }
         layer.open({
             type: 1,
             title: false,
             closeBtn: 1,
-            area: ['95%', '95%'],
+            area: [areaHeight,areaWidth],
             skin: 'layui-layer-nobg', //没有背景色
             shadeClose: true,
             content: $(this)
