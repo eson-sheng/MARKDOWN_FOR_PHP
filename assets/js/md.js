@@ -71,6 +71,7 @@ $(function() {
     }
     // 图片点击放大查看
     $('img').click(function(){
+        // 定义是否为手机查看
         var userAgentInfo = navigator.userAgent;
         var mobileAgents = [ "Android", "iPhone", "SymbianOS", "Windows Phone", "iPad","iPod"];
         var mobile_flag = false;
@@ -94,8 +95,8 @@ $(function() {
          }
         // area 属性设置
         let areaWidth = 'auto',areaHeight = 'auto';
-        // 获取当前窗口大小
-        let windowWidth = window.innerWidth,windowHeight = window.innerHeight;
+        // 获取当前窗口大小，减去刚好撑满的图片情况。
+        let windowWidth = window.innerWidth - 150,windowHeight = window.innerHeight;
         // 获取图片大小
         let imageWidth = $(this)[0].naturalWidth,imageHeight = $(this)[0].naturalHeight;
         // 判断图片大于窗口就最大90%
@@ -105,14 +106,24 @@ $(function() {
         if (imageHeight > windowHeight) {
             areaHeight = '90%';
         }
+        // 解决弹出层滚轮穿透问题
+        layer.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        // 打开弹出层
         layer.open({
             type: 1,
             title: false,
             closeBtn: 1,
-            area: [areaHeight,areaWidth],
+            area: [areaWidth,areaHeight],
             skin: 'layui-layer-nobg', //没有背景色
             shadeClose: true,
-            content: $(this)
+            content: $(this),
+            cancel: function(){
+                // 右上角关闭事件的逻辑
+                layer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                document.body.style.position = 'static';
+            }
         });
     });
 });
