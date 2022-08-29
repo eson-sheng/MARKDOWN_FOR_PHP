@@ -116,7 +116,7 @@ $(function() {
             closeBtn: 1,
             area: [areaWidth,areaHeight],
             skin: 'layui-layer-nobg', //没有背景色
-            shadeClose: true,
+            shadeClose: false,
             content: $(this),
             cancel: function(){
                 // 右上角关闭事件的逻辑
