@@ -15,6 +15,9 @@ $(function() {
         flowChart       : true,  // 默认不解析
         sequenceDiagram : true,  // 默认不解析
     });
+    // 正文中的链接统一在新标签页打开（不影响侧边栏目录的页内跳转）。
+    $("#editormd-view a").attr("target", "_blank");
+
     // 手机屏幕适配
     if (screen.width < 500) {
         var t = document.getElementById('sidebar');
