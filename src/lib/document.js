@@ -43,6 +43,7 @@ function slugify(value) {
 const markdown = new MarkdownIt({
   html: true,
   linkify: true,
+  breaks: true,
   typographer: false,
   highlight(code, language) {
     if (language && hljs.getLanguage(language)) {
