@@ -1,48 +1,38 @@
 <?php
-/*判断文件参数合法性*/
-if (empty($_GET['file']) || !is_file($_GET['file']) ) {
-    exit("<html><head><title>404 Not Found</title></head><body><center><h1>404 Not Found</h1></center><hr><center>nginx</center></body></html>");
+declare(strict_types=1);
+
+$requestedFile = isset($_GET['file']) ? (string) $_GET['file'] : '';
+$resolvedFile = $requestedFile !== '' ? realpath($requestedFile) : false;
+$isMarkdown = $resolvedFile !== false && strtolower(pathinfo($resolvedFile, PATHINFO_EXTENSION)) === 'md';
+
+if (!$isMarkdown || !is_file($resolvedFile) || !is_readable($resolvedFile)) {
+    http_response_code(404);
+    exit('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>404 Not Found</title></head><body><h1>404 Not Found</h1></body></html>');
 }
-/*提取md文件内容*/
-$text = file_get_contents($_GET['file']);
+
+$text = file_get_contents($resolvedFile);
+if ($text === false) {
+    http_response_code(500);
+    exit('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>读取失败</title></head><body><h1>Markdown 文件读取失败</h1></body></html>');
+}
+
+$title = pathinfo($resolvedFile, PATHINFO_BASENAME);
+$payload = json_encode(
+    ['title' => $title, 'content' => $text],
+    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
     <head>
         <meta charset="utf-8">
-        <title><?= pathinfo($_GET['file'],PATHINFO_BASENAME); ?></title>
-        <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/examples/css/style.css" /> -->
-        <!-- <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/editor.md/css/editormd.preview.css" /> -->
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/layui/css/layui.css" />
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/markdown.css" />
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/css/md.css" />
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/assets/iconfont/iconfont.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><?= htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></title>
+        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/dist/assets/app.css">
     </head>
     <body>
-        <div id="layout">
-            <div id="menuBtn"><i class="iconfont icon-caidanlanzhankaix"></i></div>
-            <div id="sidebar">
-                <h1>目录</h1>
-                <div class="markdown-body editormd-preview-container" id="toc"></div>
-                <br>
-            </div>
-            <div id="editormd-view">
-                <xml style="display:none;" id="xml"><?= htmlspecialchars($text); ?></xml>
-            </div>
-        </div>
+        <div id="app"></div>
+        <script id="markdown-source" type="application/json"><?= $payload ?></script>
+        <script type="module" src="/MARKDOWN_FOR_PHP/dist/assets/app.js"></script>
     </body>
-
-    <script src="/MARKDOWN_FOR_PHP/editor.md/examples/js/jquery.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/marked.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/prettify.min.js"></script>
-    
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/raphael.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/underscore.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/sequence-diagram.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/flowchart.min.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/editor.md/lib/jquery.flowchart.min.js"></script>
-
-    <script src="/MARKDOWN_FOR_PHP/editor.md/editormd.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/layui/layui.js"></script>
-    <script src="/MARKDOWN_FOR_PHP/assets/js/md.js"></script>
 </html>
