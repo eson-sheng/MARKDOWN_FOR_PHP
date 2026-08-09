@@ -15,8 +15,18 @@ $(function() {
         flowChart       : true,  // 默认不解析
         sequenceDiagram : true,  // 默认不解析
     });
-    // 正文中的链接统一在新标签页打开（不影响侧边栏目录的页内跳转）。
-    $("#editormd-view a").attr("target", "_blank");
+    // 正文中的外部链接统一在新标签页打开；相对文件链接和页内跳转保持当前页。
+    $("#editormd-view a").each(function() {
+        var href = $(this).attr("href");
+        var isRelativeFileLink = href &&
+            href.charAt(0) !== "#" &&
+            href.indexOf("//") !== 0 &&
+            !/^[a-z][a-z\d+.-]*:/i.test(href);
+
+        if (href && !isRelativeFileLink && href.charAt(0) !== "#") {
+            $(this).attr("target", "_blank");
+        }
+    });
 
     // 手机屏幕适配
     if (screen.width < 500) {
