@@ -12,7 +12,7 @@
     "@mdit/plugin-katex": "^1.0.2",
     "dompurify": "^3.2.6",
     "highlight.js": "^11.11.1",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.3.1",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-task-lists": "^2.1.1",
     "mermaid": "^11.9.0",
