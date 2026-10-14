@@ -2,29 +2,8 @@ import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItTaskLists from 'markdown-it-task-lists'
 import { katex } from '@mdit/plugin-katex'
-import hljs from 'highlight.js/lib/core'
-import bash from 'highlight.js/lib/languages/bash'
-import css from 'highlight.js/lib/languages/css'
-import javascript from 'highlight.js/lib/languages/javascript'
-import json from 'highlight.js/lib/languages/json'
-import markdownLanguage from 'highlight.js/lib/languages/markdown'
-import php from 'highlight.js/lib/languages/php'
-import sql from 'highlight.js/lib/languages/sql'
-import xml from 'highlight.js/lib/languages/xml'
+import { highlightCode } from './syntax'
 import DOMPurify from 'dompurify'
-
-hljs.registerLanguage('bash', bash)
-hljs.registerLanguage('shell', bash)
-hljs.registerLanguage('css', css)
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('js', javascript)
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('markdown', markdownLanguage)
-hljs.registerLanguage('md', markdownLanguage)
-hljs.registerLanguage('php', php)
-hljs.registerLanguage('sql', sql)
-hljs.registerLanguage('html', xml)
-hljs.registerLanguage('xml', xml)
 
 const slugCounts = new Map()
 
@@ -45,12 +24,7 @@ const markdown = new MarkdownIt({
   linkify: true,
   breaks: true,
   typographer: false,
-  highlight(code, language) {
-    if (language && hljs.getLanguage(language)) {
-      return hljs.highlight(code, { language, ignoreIllegals: true }).value
-    }
-    return markdown.utils.escapeHtml(code)
-  },
+
 })
   .use(markdownItAnchor, { slugify })
   .use(markdownItTaskLists, { enabled: false, label: true })
@@ -67,7 +41,28 @@ export function renderDocument(source) {
   const parsed = new DOMParser().parseFromString(html, 'text/html')
   parsed.querySelectorAll('pre > code').forEach((code) => {
     if (code.matches('.language-mermaid, .language-flow, .language-seq')) return
+    const declared = [...code.classList].find((name) => name.startsWith('language-'))?.slice(9).toLowerCase()
+    const highlighted = highlightCode(code.textContent, declared)
+    if (highlighted.html !== null) code.innerHTML = highlighted.html
+    code.classList.add('hljs')
+    const wrapper = parsed.createElement('div')
+    wrapper.className = 'code-block-wrapper'
+    const header = parsed.createElement('div')
+    header.className = 'code-block__header'
+    const label = parsed.createElement('span')
+    label.className = 'code-block__language'
+    label.textContent = highlighted.label
+    const copy = parsed.createElement('button')
+    copy.type = 'button'
+    copy.className = 'code-block__copy'
+    copy.textContent = '复制'
+    copy.setAttribute('aria-label', '复制代码')
+    copy.setAttribute('title', '复制代码')
+    copy.setAttribute('aria-live', 'polite')
+    header.append(label, copy)
     const pre = code.parentElement
+    pre.replaceWith(wrapper)
+    wrapper.append(header, pre)
     pre.classList.add('code-block')
     const lines = code.textContent.replace(/\n$/, '').split('\n').length
     const gutter = parsed.createElement('span')

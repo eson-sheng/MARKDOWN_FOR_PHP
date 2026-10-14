@@ -56,6 +56,8 @@ location ~ \.md$ {
 - 桌面端默认显示目录，移动端默认收起。
 - 相对文档链接和页内锚点在当前页面打开；外部协议链接在新标签页打开。
 - 桌面端点击图片打开灯箱，移动端直接访问原图。
+- 代码块支持 highlight.js 内置的全部 192 种语言及其别名，顶部显示语言名称；未标注语言时自动识别，cURL 优先识别为 Bash。`text` / `plaintext` 可关闭高亮，未知语言保留原标签并显示纯文本。
+- 代码块右上角的复制按钮在悬停或键盘聚焦时显示，触屏设备常显；复制内容不包含行号。
 - `mermaid`、`flow`、`seq` fenced code block 会交给 Mermaid 渲染。
 - HTML 会经过 DOMPurify 清理；可信 Markdown 仍可使用常见 HTML 和 iframe。
 

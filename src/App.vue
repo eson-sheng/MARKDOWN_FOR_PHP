@@ -88,7 +88,41 @@ function closeLightbox() {
   document.body.classList.remove('is-locked')
 }
 
+async function copyCode(button) {
+  const text = button.closest('.code-block-wrapper')?.querySelector('pre > code')?.textContent
+  if (text === undefined || button.disabled) return
+  button.disabled = true
+  try {
+    if (window.isSecureContext && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+    } else {
+      const field = document.createElement('textarea')
+      field.value = text
+      field.style.cssText = 'position:fixed;left:-9999px;top:0'
+      document.body.append(field)
+      try {
+        field.select()
+        if (!document.execCommand('copy')) throw new Error('Copy failed')
+      } finally {
+        field.remove()
+        button.focus({ preventScroll: true })
+      }
+    }
+    button.textContent = '已复制'
+  } catch {
+    button.textContent = '复制失败，请重试'
+  } finally {
+    button.disabled = false
+    window.setTimeout(() => { button.textContent = '复制' }, 1800)
+  }
+}
+
 function handleArticleClick(event) {
+  const copy = event.target.closest('.code-block__copy')
+  if (copy && article.value?.contains(copy)) {
+    copyCode(copy)
+    return
+  }
   const image = event.target.closest('img')
   if (!image || !article.value?.contains(image)) return
 

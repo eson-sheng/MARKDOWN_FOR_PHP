@@ -123,14 +123,26 @@ body.is-locked { overflow: hidden; }
 .markdown-body pre { margin: .85em 0 1.15em; padding: 14px 16px; overflow: auto; font-size: .9em; line-height: 1.55; background: var(--soft-bg); border: 1px solid var(--border); border-radius: 8px; }
 .markdown-body code { padding: .15em .35em; background: var(--code-bg); border-radius: 4px; }
 .markdown-body pre code { padding: 0; background: transparent; }
+.markdown-body .code-block-wrapper { margin: .85em 0 1.15em; overflow: hidden; background: #f8f7f3; border: 1px solid #e5e3db; border-radius: 10px; }
+.markdown-body .code-block__header { display: flex; align-items: center; justify-content: space-between; min-height: 38px; padding: 5px 12px 5px 16px; background: var(--soft-bg); border-bottom: 1px solid var(--border); }
+.markdown-body .code-block__language { color: var(--muted); font: 600 12px/1.5 "SFMono-Regular", Consolas, monospace; }
+.markdown-body .code-block__copy { opacity: 0; pointer-events: none; padding: 3px 8px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 5px; font-family: inherit; font-size: 12px; line-height: 1.5; cursor: pointer; transition: opacity .15s ease, color .15s ease; }
+.markdown-body .code-block-wrapper:hover .code-block__copy,
+.markdown-body .code-block-wrapper:focus-within .code-block__copy { opacity: 1; pointer-events: auto; }
+.markdown-body .code-block__copy:hover { color: var(--accent); border-color: var(--accent); }
+.markdown-body .code-block__copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (hover: none) { .markdown-body .code-block__copy { opacity: 1; pointer-events: auto; } }
+:root[data-theme='dark'] .markdown-body .code-block-wrapper { background: #252b31; border-color: #363e46; }
 .markdown-body pre.code-block {
+  margin: 0;
+  border: 0;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   gap: 16px;
   padding: 16px 18px 16px 0;
   background: #f8f7f3;
   border-color: #e5e3db;
-  border-radius: 10px;
+  border-radius: 0;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", "PingFang SC", monospace;
   font-size: 14px;
   line-height: 1.8;
@@ -152,6 +164,8 @@ body.is-locked { overflow: hidden; }
 .markdown-body pre.code-block > code {
   display: block;
   overflow: visible;
+  padding: 0;
+  background: transparent;
   font: inherit;
   color: var(--text);
   white-space: pre;
