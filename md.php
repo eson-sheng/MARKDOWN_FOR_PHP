@@ -21,6 +21,18 @@ $payload = json_encode(
     ['title' => $title, 'content' => $text],
     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
 );
+
+// Stable entry filenames need a new URL whenever a build changes their contents.
+function assetUrl(string $filename): string
+{
+    $path = __DIR__ . '/dist/assets/' . $filename;
+    $version = is_file($path) ? hash_file('sha256', $path) : false;
+    $url = '/MARKDOWN_FOR_PHP/dist/assets/' . $filename;
+    if ($version !== false) {
+        $url .= '?v=' . substr($version, 0, 16);
+    }
+    return htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -28,11 +40,11 @@ $payload = json_encode(
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?= htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></title>
-        <link rel="stylesheet" href="/MARKDOWN_FOR_PHP/dist/assets/app.css">
+        <link rel="stylesheet" href="<?= assetUrl('app.css') ?>">
     </head>
     <body>
         <div id="app"></div>
         <script id="markdown-source" type="application/json"><?= $payload ?></script>
-        <script type="module" src="/MARKDOWN_FOR_PHP/dist/assets/app.js"></script>
+        <script type="module" src="<?= assetUrl('app.js') ?>"></script>
     </body>
 </html>

@@ -65,6 +65,17 @@ export function renderDocument(source) {
   })
 
   const parsed = new DOMParser().parseFromString(html, 'text/html')
+  parsed.querySelectorAll('pre > code').forEach((code) => {
+    if (code.matches('.language-mermaid, .language-flow, .language-seq')) return
+    const pre = code.parentElement
+    pre.classList.add('code-block')
+    const lines = code.textContent.replace(/\n$/, '').split('\n').length
+    const gutter = parsed.createElement('span')
+    gutter.className = 'code-block__numbers'
+    gutter.setAttribute('aria-hidden', 'true')
+    gutter.textContent = Array.from({ length: lines }, (_, index) => index + 1).join('\n')
+    pre.prepend(gutter)
+  })
   const headings = [...parsed.querySelectorAll('h1, h2, h3, h4, h5, h6')].map((node) => ({
     id: node.id,
     level: Number(node.tagName.slice(1)),

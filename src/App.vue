@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { renderDocument } from './lib/document'
+import { decorateDiagram, diagramConfig } from './lib/diagrams'
 
 const payload = JSON.parse(document.querySelector('#markdown-source')?.textContent || '{}')
 const source = payload.content || ''
@@ -112,8 +113,23 @@ async function renderDiagrams() {
     code.parentElement.replaceWith(container)
   })
   const { default: mermaid } = await import('mermaid')
-  mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' })
-  await mermaid.run({ nodes: article.value.querySelectorAll('.mermaid') })
+  mermaid.initialize(diagramConfig)
+  for (const container of article.value.querySelectorAll('.mermaid')) {
+    const original = container.textContent
+    try {
+      await mermaid.run({ nodes: [container] })
+      decorateDiagram(container)
+    } catch (error) {
+      // Keep a malformed diagram readable without blocking the following ones.
+      const fallback = document.createElement('pre')
+      const code = document.createElement('code')
+      code.textContent = original
+      fallback.append(code)
+      container.replaceChildren(fallback)
+      container.classList.add('mermaid--error')
+      console.warn('Mermaid diagram could not be rendered:', error)
+    }
+  }
 }
 
 onMounted(() => {

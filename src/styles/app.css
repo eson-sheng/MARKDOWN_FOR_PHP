@@ -123,6 +123,41 @@ body.is-locked { overflow: hidden; }
 .markdown-body pre { margin: .85em 0 1.15em; padding: 14px 16px; overflow: auto; font-size: .9em; line-height: 1.55; background: var(--soft-bg); border: 1px solid var(--border); border-radius: 8px; }
 .markdown-body code { padding: .15em .35em; background: var(--code-bg); border-radius: 4px; }
 .markdown-body pre code { padding: 0; background: transparent; }
+.markdown-body pre.code-block {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 18px 16px 0;
+  background: #f8f7f3;
+  border-color: #e5e3db;
+  border-radius: 10px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", "PingFang SC", monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0;
+  tab-size: 4;
+}
+.markdown-body .code-block__numbers {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding: 0 12px 0 16px;
+  color: #b0b3b8;
+  background: #f8f7f3;
+  border-right: 1px solid #e9e7e0;
+  text-align: right;
+  user-select: none;
+  pointer-events: none;
+}
+.markdown-body pre.code-block > code {
+  display: block;
+  overflow: visible;
+  font: inherit;
+  color: var(--text);
+  white-space: pre;
+}
+:root[data-theme='dark'] .markdown-body pre.code-block { background: #252b31; border-color: #363e46; }
+:root[data-theme='dark'] .markdown-body .code-block__numbers { color: #737e88; background: #252b31; border-color: #363e46; }
 .markdown-body blockquote { margin: 1em 0; padding: .15em 1em; color: var(--muted); background: color-mix(in srgb, var(--soft-bg) 65%, transparent); border-left: 3px solid var(--accent); }
 .markdown-body blockquote > :last-child { margin-bottom: 0; }
 .markdown-body table { display: block; max-width: 100%; margin: 1em 0 1.25em; overflow: auto; font-size: .94em; border-spacing: 0; border-collapse: separate; border: 1px solid var(--border); border-radius: 8px; }
@@ -162,3 +197,82 @@ body.is-locked { overflow: hidden; }
   .content { width: calc(100% - 32px); padding-top: 62px; }
   .markdown-body { font-size: 15px; }
 }
+
+/* Native Mermaid hand-drawn geometry and cyan pencil hatching. */
+.markdown-body .mermaid {
+  --diagram-hatch: #a5edf3;
+  --diagram-pink: #f9dfed;
+  --diagram-yellow: #f8edbd;
+  --diagram-purple: #ddd3f3;
+  --diagram-border: #efa9be;
+  --diagram-actor: #d8b4fe;
+  --diagram-actor-border: #a78bfa;
+  --diagram-note: #fef9c3;
+  --diagram-note-ink: #78350f;
+  --diagram-line: #f4b2ce;
+  --diagram-ink: #1f2937;
+  --diagram-label-bg: transparent;
+  --diagram-cluster: #faf5ff;
+  margin: 16px 0 22px;
+  padding: 18px 16px;
+  overflow-x: auto;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  text-align: center;
+}
+.markdown-body .mermaid > svg { display: block; height: auto; margin: 0 auto; overflow: visible; }
+.markdown-body .mermaid .diagram-hatching {
+  opacity: .85;
+  stroke-width: 3.5px !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.markdown-body .mermaid :is(.nodeLabel, .label, .edgeLabel) {
+  color: var(--diagram-ink) !important;
+  font-family: "Fira Code", "JetBrains Mono", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  line-height: 1.65;
+}
+.markdown-body .mermaid .nodeLabel { font-size: 30px !important; font-weight: 500; line-height: 1.3; }
+.markdown-body .mermaid .label foreignObject { overflow: visible; }
+.markdown-body .mermaid :is(.nodeLabel, .edgeLabel) p { margin: 0; }
+.markdown-body .mermaid text { fill: var(--diagram-ink) !important; }
+.markdown-body .mermaid :is(.flowchart-link, .messageLine0, .messageLine1) { stroke: var(--diagram-line) !important; stroke-width: 1.8px !important; }
+.markdown-body .mermaid marker path { fill: var(--diagram-line) !important; stroke: var(--diagram-line) !important; }
+.markdown-body .mermaid :is(.edgeLabel, .edgeLabel .label, .labelBkg) { background: var(--diagram-label-bg) !important; }
+.markdown-body .mermaid .labelBkg { fill: transparent !important; }
+.markdown-body .mermaid .edgeLabel :is(div, span, p) {
+  background: transparent !important;
+  color: var(--diagram-ink) !important;
+}
+.markdown-body .mermaid .edgeLabel rect { fill: transparent !important; }
+.markdown-body .mermaid .edgeLabel { font-size: 28px !important; font-weight: 500; }
+.markdown-body .mermaid .cluster rect { fill: var(--diagram-cluster) !important; stroke: var(--diagram-line) !important; }
+:root[data-theme='dark'] .markdown-body .mermaid {
+  --diagram-hatch: #39747c;
+  --diagram-pink: #74465f;
+  --diagram-yellow: #776337;
+  --diagram-purple: #584777;
+  --diagram-border: #fda4af;
+  --diagram-actor: #514165;
+  --diagram-actor-border: #b8a0e6;
+  --diagram-note: #51472d;
+  --diagram-note-ink: #fff0b5;
+  --diagram-line: #e0a0b6;
+  --diagram-ink: #f3eef9;
+  --diagram-label-bg: transparent;
+  --diagram-cluster: #29343a;
+  background: transparent;
+  border-color: #454052;
+}
+@media (max-width: 767px) {
+  .markdown-body .mermaid { padding: 14px 10px; }
+}
+
+.markdown-body .mermaid rect.actor { fill: var(--diagram-actor) !important; stroke: var(--diagram-actor-border) !important; }
+.markdown-body .mermaid .actor-line { stroke: var(--diagram-actor-border) !important; }
+.markdown-body .mermaid .note { fill: var(--diagram-note) !important; stroke: var(--diagram-yellow) !important; }
+.markdown-body .mermaid .noteText { fill: var(--diagram-note-ink) !important; }
+.markdown-body .mermaid .labelBox { fill: var(--diagram-note) !important; stroke: var(--diagram-yellow) !important; }
+.markdown-body .mermaid .sequenceNumber { fill: var(--diagram-pink) !important; }
+:root[data-theme='dark'] .markdown-body .mermaid .classGroup rect { fill: var(--diagram-pink) !important; stroke: var(--diagram-purple) !important; }
