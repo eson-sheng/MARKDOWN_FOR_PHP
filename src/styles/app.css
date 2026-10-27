@@ -174,9 +174,11 @@ body.is-locked { overflow: hidden; }
 :root[data-theme='dark'] .markdown-body .code-block__numbers { color: #737e88; background: #252b31; border-color: #363e46; }
 .markdown-body blockquote { margin: 1em 0; padding: .15em 1em; color: var(--muted); background: color-mix(in srgb, var(--soft-bg) 65%, transparent); border-left: 3px solid var(--accent); }
 .markdown-body blockquote > :last-child { margin-bottom: 0; }
-.markdown-body table { display: block; max-width: 100%; margin: 1em 0 1.25em; overflow: auto; font-size: .94em; border-spacing: 0; border-collapse: separate; border: 1px solid var(--border); border-radius: 8px; }
+.markdown-body .table-scroll { width: 100%; max-width: 100%; margin: 1em 0 1.25em; overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+.markdown-body .table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.markdown-body table { display: table; width: 100%; margin: 0; font-size: .94em; border-spacing: 0; border-collapse: separate; overflow-wrap: normal; }
 .markdown-body th, .markdown-body td { padding: 8px 12px; text-align: left; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.markdown-body th { font-weight: 650; background: var(--soft-bg); }
+.markdown-body th { min-width: 8em; white-space: nowrap; font-weight: 650; background: var(--soft-bg); }
 .markdown-body tr:last-child td { border-bottom: 0; }
 .markdown-body th:last-child, .markdown-body td:last-child { border-right: 0; }
 .markdown-body tr:nth-child(2n) { background: var(--soft-bg); }

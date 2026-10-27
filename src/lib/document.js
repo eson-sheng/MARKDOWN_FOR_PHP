@@ -39,6 +39,15 @@ export function renderDocument(source) {
   })
 
   const parsed = new DOMParser().parseFromString(html, 'text/html')
+  parsed.querySelectorAll('table').forEach((table) => {
+    const wrapper = parsed.createElement('div')
+    wrapper.className = 'table-scroll'
+    wrapper.tabIndex = 0
+    wrapper.setAttribute('role', 'region')
+    wrapper.setAttribute('aria-label', '表格，可横向滚动')
+    table.replaceWith(wrapper)
+    wrapper.append(table)
+  })
   parsed.querySelectorAll('pre > code').forEach((code) => {
     if (code.matches('.language-mermaid, .language-flow, .language-seq')) return
     const declared = [...code.classList].find((name) => name.startsWith('language-'))?.slice(9).toLowerCase()
