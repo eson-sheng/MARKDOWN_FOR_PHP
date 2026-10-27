@@ -42,10 +42,11 @@ export function decorateDiagram(container) {
   const svg = container.querySelector('svg')
   const bounds = svg?.viewBox.baseVal
   if (bounds?.width > 0 && bounds.height > 0) {
-    // Mermaid emits width="100%"; use its actual geometry to avoid enlarging small diagrams.
-    const scale = Math.min(0.9, 620 / bounds.width, 520 / bounds.height)
+    // Keep long diagrams readable instead of shrinking them to a fixed height.
+    // Wide diagrams scroll inside their container at the same readable scale.
+    const scale = 0.6
     svg.style.width = `${Math.round(bounds.width * scale)}px`
-    svg.style.maxWidth = '100%'
+    svg.style.maxWidth = 'none'
   }
   // Rough.js draws separate paths for the colored hatching and pencil outline.
   // Preserve their geometry and paint roles while allowing live theme changes.
